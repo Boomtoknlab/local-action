@@ -17,14 +17,20 @@ actions can be run directly on your workstation.
 The following table tracks the versions of the GitHub Actions Toolkit that are
 currently implemented by this tool.
 
-| Package             | Version  |
-| ------------------- | -------- |
-| `@actions/artifact` | `2.2.0`  |
-| `@actions/core`     | `1.11.1` |
+| Package                                                                | Version  |
+| ---------------------------------------------------------------------- | -------- |
+| [`@actions/artifact`](https://www.npmjs.com/package/@actions/artifact) | `2.3.2`  |
+| [`@actions/core`](https://www.npmjs.com/package/@actions/core)         | `1.11.1` |
+| [`@actions/github`](https://www.npmjs.com/package/@actions/github)     | `6.0.0`  |
 
 ## Changelog
 
 See the [CHANGELOG](./CHANGELOG.md) for a complete list of changes.
+
+## Node.js Version Support
+
+This tool is currently tested against **Node.js versions 20 and 22**. It is not
+guaranteed to work with other versions at this time.
 
 ## Package Manager Support
 
@@ -36,18 +42,16 @@ to use `npm` for managing actions you wish to test with this tool.
 ### `pnpm` Support
 
 This tool ships with **experimental** support for `pnpm`. If you encounter any
-issues, please file an issue
-[here](https://github.com/github/local-action/issues).
+issues, please [file an issue](https://github.com/github/local-action/issues).
 
 Some caveats to this support are listed below.
 
 - This tool does not support CommonJS actions using `pnpm`.
 
-## `yarn` Support
+### `yarn` Support
 
 This tool ships with **experimental** support for `yarn`. If you encounter any
-issues, please file an issue
-[here](https://github.com/github/local-action/issues).
+issues, please [file an issue](https://github.com/github/local-action/issues).
 
 Some caveats to this support are listed below.
 
@@ -178,31 +182,35 @@ For additional information about transpiled action code, see
 | `-h`, `--help`    | Display help information    |
 | `-V`, `--version` | Display version information |
 
-### `local-action run <path> <logic entrypoint> <dotenv file>`
+### `local-action run <path> <logic entrypoint> <dotenv file> [--pre <pre entrypoint>] [--post <post entrypoint>]`
 
-| Argument           | Description                                            |
-| ------------------ | ------------------------------------------------------ |
-| `path`             | Path to the local action directory                     |
-|                    | Example: `/path/to/action.yml`                         |
-| `logic entrypoint` | Action logic entrypoint (relative to action directory) |
-|                    | Example: `src/main.ts`                                 |
-| `dotenv file`      | Path to the local `.env` file for action inputs        |
-|                    | Example: `/path/to/.env`                               |
-|                    | See the example [`.env.example`](.env.example)         |
+| Argument                   | Description                                                         |
+| -------------------------- | ------------------------------------------------------------------- |
+| `path`                     | Path to the local action directory                                  |
+|                            | Example: `/path/to/action.yml`                                      |
+| `logic entrypoint`         | Action logic entrypoint (relative to action directory)              |
+|                            | Example: `src/main.ts`                                              |
+| `dotenv file`              | Path to the local `.env` file for action inputs                     |
+|                            | Example: `/path/to/.env`                                            |
+|                            | See the example [`.env.example`](.env.example)                      |
+| `--pre <pre entrypoint>`   | (Optional) `pre` command entrypoint (relative to action directory)  |
+|                            | Example: `pre/main.ts`                                              |
+| `--post <post entrypoint>` | (Optional) `post` command entrypoint (relative to action directory) |
+|                            | Example: `post/main.ts`                                             |
 
 Examples:
 
 ```bash
-local-action run /path/to/typescript-action src/main.ts .env
+local-action run /path/to/typescript-action src/main.ts .env --pre pre/main.ts --post post/main.ts
 
 # The `run` action is invoked by default as well
-local-action /path/to/typescript-action src/main.ts .env
+local-action /path/to/typescript-action src/main.ts .env --pre pre/main.ts --post post/main.ts
 ```
 
 #### Output
 
 ```console
-$ local-action run /path/to/typescript-action src/main.ts .env
+$ local-action run /path/to/typescript-action src/main.ts .env --pre pre/main.ts --post post/main.ts
      _        _   _               ____       _
     / \   ___| |_(_) ___  _ __   |  _ \  ___| |__  _   _  __ _  __ _  ___ _ __
    / _ \ / __| __| |/ _ \| '_ \  | | | |/ _ \ '_ \| | | |/ _` |/ _` |/ _ \ '__|

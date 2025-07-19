@@ -27,6 +27,10 @@ jobs:
         language:
           - TypeScript
 
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-${{ matrix.language }}
+      cancel-in-progress: true
+
     steps:
       - name: Checkout
         id: checkout
@@ -38,6 +42,7 @@ jobs:
         with:
           languages: ${{ matrix.language }}
           source-root: src
+          config-file: .github/codeql/codeql-config.yml
 
       - name: Autobuild
         id: autobuild
